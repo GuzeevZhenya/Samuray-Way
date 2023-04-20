@@ -1,18 +1,15 @@
 import React from "react";
 import styles from "./Profile.module.css";
 import { MyPosts } from "./MyPosts/MyPosts";
+import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
 
 export const Profile = () => {
   return (
     <div>
       <div>
-        <img
-          src="https://avatarko.ru/img/kartinka/33/multfilm_lyagushka_32117.jpg"
-          alt="main"
-        />
+        <ProfileInfo />
+        <MyPosts />
       </div>
-      <div>avatar + description</div>
-      <MyPosts />
     </div>
   );
 };
