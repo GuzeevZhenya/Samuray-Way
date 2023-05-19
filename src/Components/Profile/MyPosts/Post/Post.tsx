@@ -1,10 +1,6 @@
 import React from "react";
 import styles from "./Post.module.css";
-
-type PostPropsType = {
-  message?: string;
-  likesCount?: string;
-};
+import { PostPropsType } from "../MyPosts";
 
 export const Post = (props: PostPropsType) => {
   return (

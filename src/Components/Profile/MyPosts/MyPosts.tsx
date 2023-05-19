@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
 
+export type PostPropsType = {
+  message: string;
+  likesCount: string | number;
+  id: string | number;
+};
+
 export const MyPosts = () => {
+  let [postsData, setPostsData] = useState<PostPropsType[]>([
+    { id: 1, message: "Alex", likesCount: 12 },
+    { id: 2, message: "Vitia", likesCount: 12 },
+    { id: 3, message: "Valera", likesCount: 12 },
+    { id: 4, message: "Vasia", likesCount: 12 },
+    { id: 5, message: "Alex", likesCount: 12 },
+  ]);
+
   return (
     <div className={styles.postsBlock}>
       <h3>My posts</h3>
@@ -15,11 +29,9 @@ export const MyPosts = () => {
         </div>
       </div>
       <div className={styles.posts}>
-        <Post message="hi" likesCount="0" />
-        <Post message="wtf" likesCount="20" />
-        <Post />
-        <Post />
-        <Post />
+        {postsData.map((el) => (
+          <Post key={el.id} id={el.id} likesCount={el.likesCount} message={el.message} />
+        ))}
       </div>
     </div>
   );
