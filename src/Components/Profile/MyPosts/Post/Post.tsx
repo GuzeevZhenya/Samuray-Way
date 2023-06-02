@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Post.module.css";
-import { PostPropsType } from "../MyPosts";
+import { PostPropsType } from "../../../../App";
 
 export const Post = (props: PostPropsType) => {
   return (
