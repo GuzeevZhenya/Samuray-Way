@@ -1,22 +1,43 @@
-import React, { useState } from "react";
+import React, { createRef, useState } from "react";
 import styles from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
-import { PostTypes } from "../Profile";
+import { PostType } from "../../../redux/state";
 
-export const MyPosts = (props: PostTypes) => {
+type PostPropsType = {
+  posts: PostType[];
+  addPost: (message: string) => void;
+};
+
+export const MyPosts = (props: PostPropsType) => {
+  const [postData, setPostData] = useState("");
+
+  let textInput = React.createRef<HTMLTextAreaElement>();
+
+  let addPost = () => {
+    let text = textInput.current?.value;
+    if (text) {
+      props.addPost(text);
+      setPostData('');
+    }
+  }; 
+
   return (
     <div className={styles.postsBlock}>
       <h3>My posts</h3>
       <div>
         <div>
-          <textarea></textarea>
+          <textarea
+            ref={textInput}
+            value={postData}
+            onChange={(e) => setPostData(e.currentTarget.value)}
+          ></textarea>
         </div>
         <div>
-          <button>Add post</button>
+          <button onClick={() => addPost()}>Add post</button>
         </div>
       </div>
       <div className={styles.posts}>
-        {props.postsData.map((el) => (
+        {props.posts.map((el) => (
           <Post
             key={el.id}
             id={el.id}

@@ -1,8 +1,7 @@
 import React from "react";
 import styles from "./Post.module.css";
-import { PostPropsType } from "../../../../App";
-
-export const Post = (props: PostPropsType) => {
+import { PostType } from "../../../../redux/state";
+export const Post = (props: PostType) => {
   return (
     <div className={styles.item}>
       <img
