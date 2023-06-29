@@ -5,6 +5,7 @@ import { NavBar } from "./Components/NavBar/NavBar";
 import { Profile } from "./Components/Profile/Profile";
 import { Dialogs } from "./Components/Dialogs/Dialogs";
 import { Route, Routes } from "react-router-dom";
+// import { updateNewPostText } from "./redux/state";
 
 // type PropsType = {
 //   state: StateType
@@ -27,7 +28,7 @@ export const App = (props: any) => {
             element={
               <Profile
                 profilePage={props.stateData.profilePage}
-                addPost={props.addPost}
+                dispatch={props.dispatch}
               />
             }
           />

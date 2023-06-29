@@ -1,25 +1,30 @@
 import React, { createRef, useState } from "react";
 import styles from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
-import { PostType } from "../../../redux/state";
+import { ActionsType, PostType } from "../../../redux/state";
 
 type PostPropsType = {
   posts: PostType[];
-  addPost: (message: string) => void;
+  dispatch: (action: ActionsType) => void;
+  newPostText: string;
 };
 
 export const MyPosts = (props: PostPropsType) => {
   const [postData, setPostData] = useState("");
 
   let textInput = React.createRef<HTMLTextAreaElement>();
-
   let addPost = () => {
     let text = textInput.current?.value;
     if (text) {
-      props.addPost(text);
-      setPostData('');
+      props.dispatch({ type: "ADD-POST", newPostText: text });
     }
-  }; 
+  };
+
+  const onPostChange = () => {
+    let text = textInput.current!.value;
+    console.log(text);
+    props.dispatch({ type: "UPDATE-NEW-POST-TEXT", newPostText: text });
+  };
 
   return (
     <div className={styles.postsBlock}>
@@ -28,8 +33,9 @@ export const MyPosts = (props: PostPropsType) => {
         <div>
           <textarea
             ref={textInput}
-            value={postData}
-            onChange={(e) => setPostData(e.currentTarget.value)}
+            value={props.newPostText}
+            // onChange={(e) => setPostData(e.currentTarget.value)}
+            onChange={onPostChange}
           ></textarea>
         </div>
         <div>
