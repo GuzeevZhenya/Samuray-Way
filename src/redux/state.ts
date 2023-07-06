@@ -44,12 +44,12 @@ export type StoreType = {
   _onChange: () => void;
 };
 
-type AddPostActionType = {
+export type AddPostActionType = {
   type: "ADD-POST";
   newPostText: string;
 };
 
-type ChangePostType = {
+export type ChangePostType = {
   type: "UPDATE-NEW-POST-TEXT";
   newPostText: string;
 };
@@ -129,15 +129,13 @@ export let store: StoreType = {
   dispatch(action: any) {
     switch (action.type) {
       case "ADD-POST": {
-        console.log(this._state.profilePage.newPostText);
         const newPost: PostType = {
           // id: newStateData.messagesPage.messages.length + 1,
           id: 5,
-          message: action.newPostText,
+          message: action.newPostText, 
           likesCount: 0,
         };
         this._state.profilePage.newPostText = "";
-        console.log(newPost);
 
         this._state.profilePage.posts.push(newPost);
 
@@ -157,6 +155,19 @@ export let store: StoreType = {
         this._onChange();
     }
   },
+};
+
+export const addPostActionCreator = (text: string): AddPostActionType => {
+  return { type: "ADD-POST", newPostText: text };
+};
+
+export const updateNewPostTextActionCreator = (
+  text: string
+): ChangePostType => {
+  return {
+    type: "UPDATE-NEW-POST-TEXT",
+    newPostText: text,
+  };
 };
 
 // export const stateData: RootStateType = {
