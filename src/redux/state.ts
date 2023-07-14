@@ -132,7 +132,7 @@ export let store: StoreType = {
         const newPost: PostType = {
           // id: newStateData.messagesPage.messages.length + 1,
           id: 5,
-          message: action.newPostText, 
+          message: action.newPostText,
           likesCount: 0,
         };
         this._state.profilePage.newPostText = "";
