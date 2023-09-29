@@ -5,7 +5,6 @@ import {
   ActionsType,
   PostType,
   addPostActionCreator,
-  updateNewPostTextActionCreator,
 } from "../../../redux/state";
 
 type PostPropsType = {
@@ -22,14 +21,15 @@ export const MyPosts = (props: PostPropsType) => {
     let text = textInput.current!.value;
     if (text) {
       props.dispatch(addPostActionCreator(text));
+      setPostData("");
     }
   };
 
-  const onPostChange = () => {
-    let text = textInput.current!.value;
-    console.log(text);
-    props.dispatch(updateNewPostTextActionCreator(text));
-  };
+  // const onPostChange = () => {
+  //   let text = textInput.current!.value;
+  //   console.log(text);
+  //   props.dispatch(updateNewPostTextActionCreator(text));
+  // };
 
   return (
     <div className={styles.postsBlock}>
@@ -38,9 +38,9 @@ export const MyPosts = (props: PostPropsType) => {
         <div>
           <textarea
             ref={textInput}
-            value={props.newPostText}
+            value={postData}
             // onChange={(e) => setPostData(e.currentTarget.value)}
-            onChange={onPostChange}
+            onChange={(e) => setPostData(e.currentTarget.value)}
           ></textarea>
         </div>
         <div>

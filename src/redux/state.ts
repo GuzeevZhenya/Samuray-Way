@@ -1,3 +1,7 @@
+import { profile } from "console";
+import { profileReducer } from "./ProfileReducer";
+import { dialogReducer } from "./DialogReducer";
+
 let rerenderEntireTree = () => {
   console.log("state");
 };
@@ -26,6 +30,7 @@ export type ProfilePageType = {
 export type DialogsPageType = {
   dialogs: DialogType[];
   messages: MessageType[];
+  newDialogText: string;
 };
 
 export type SidebarType = {};
@@ -50,11 +55,16 @@ export type AddPostActionType = {
 };
 
 export type ChangePostType = {
-  type: "UPDATE-NEW-POST-TEXT";
+  type: "UPDATE_NEW_POST_TEXT";
   newPostText: string;
 };
 
-export type ActionsType = AddPostActionType | ChangePostType;
+export type ChangeDialogType = {
+  type: "UPDATE_NEW_MESSAGE_BODY";
+  newDialogText: string;
+};
+
+export type ActionsType = AddPostActionType | ChangePostType | ChangeDialogType;
 
 export let store: StoreType = {
   _state: {
@@ -84,6 +94,7 @@ export let store: StoreType = {
         { id: 4, message: "how are you" },
         { id: 5, message: "lol kek" },
       ],
+      newDialogText: "",
     },
     sidebar: {},
   },
@@ -126,34 +137,47 @@ export let store: StoreType = {
   //   this._state.profilePage.newPostText = newText;
   //   this.rerenderEntireTree();
   // },
-  dispatch(action: any) {
-    switch (action.type) {
-      case "ADD-POST": {
-        const newPost: PostType = {
-          // id: newStateData.messagesPage.messages.length + 1,
-          id: 5,
-          message: action.newPostText,
-          likesCount: 0,
-        };
-        this._state.profilePage.newPostText = "";
+  dispatch(action: ActionsType) {
+    this._state.profilePage = profileReducer(this._state.profilePage, action);
+    this._state.messagesPage = dialogReducer(this._state.messagesPage, action);
 
-        this._state.profilePage.posts.push(newPost);
+    // switch (action.type) {
+    //   // case "ADD-POST": {
+    //   //   const newPost: PostType = {
+    //   //     id: 5,
+    //   //     message: action.newPostText,
+    //   //     likesCount: 0,
+    //   //   };
+    //   //   this._state.profilePage.newPostText = "";
 
-        // const newMessages = [...newStateData.messagesPage.messages, newPost];
-        this._onChange();
-        // setStateData({
-        //   ...newStateData,
-        //   messagesPage: {
-        //     ...newStateData.messagesPage,
-        //     messages: newMessages,
-        //   },
-        // });
-        break;
-      }
-      case "UPDATE-NEW-POST-TEXT":
-        this._state.profilePage.newPostText = action.newPostText;
-        this._onChange();
-    }
+    //   //   this._state.profilePage.posts.push(newPost);
+    //   //   // this._onChange(this._state);
+
+    //   //   // const newMessages = [...newStateData.messagesPage.messages, newPost];
+    //   //   this._onChange();
+    //   //   // setStateData({
+    //   //   //   ...newStateData,
+    //   //   //   messagesPage: {
+    //   //   //     ...newStateData.messagesPage,
+    //   //   //     messages: newMessages,
+    //   //   //   },
+    //   //   // });
+    //   //   break;
+    //   // }
+    //   case "UPDATE_NEW_POST_TEXT":
+    //     this._state.profilePage.newPostText = action.newPostText;
+    //     this._onChange();
+    //     break;
+    //   // case "UPDATE_NEW_MESSAGE_BODY":
+    //   //   const newPost: MessageType = {
+    //   //     id: 5,
+    //   //     message: action.newDialogText,
+    //   //   };
+    //   //   this._state.messagesPage.newDialogText = action.newDialogText;
+    //   //   this._state.messagesPage.messages.push(newPost);
+    //   //   this._onChange();
+    //   //   break;
+    // }
   },
 };
 
@@ -161,51 +185,24 @@ export const addPostActionCreator = (text: string): AddPostActionType => {
   return { type: "ADD-POST", newPostText: text };
 };
 
+export const sendMessageActionCreator = (text: string) => {
+  return { type: "UPDATE_NEW_MESSAGE_BODY", newDialogText: text };
+};
+
 export const updateNewPostTextActionCreator = (
   text: string
 ): ChangePostType => {
   return {
-    type: "UPDATE-NEW-POST-TEXT",
+    type: "UPDATE_NEW_POST_TEXT",
     newPostText: text,
   };
 };
 
-// export const stateData: RootStateType = {
-//   profilePage: {
-//     posts: [
-//       { id: 1, message: "Alex", likesCount: 12 },
-//       { id: 2, message: "Vitia", likesCount: 4 },
-//       { id: 3, message: "Valera", likesCount: 54 },
-//       { id: 4, message: "Vasia", likesCount: 123 },
-//       { id: 5, message: "Alex", likesCount: 4 },
-//     ],
-//     newPostText: "",
-//   },
-//   messagesPage: {
-//     dialogs: [
-//       { id: 1, name: "Alex" },
-//       { id: 2, name: "Vitia" },
-//       { id: 3, name: "Valera" },
-//       { id: 4, name: "Vasia" },
-//       { id: 5, name: "Alex" },
-//     ],
-
-//     messages: [
-//       { id: 1, message: "hi" },
-//       { id: 2, message: "hello" },
-//       { id: 3, message: "wtf" },
-//       { id: 4, message: "how are you" },
-//       { id: 5, message: "lol kek" },
-//     ],
-//   },
-//   sidebar: {},
-// };
-
-// export const subscribe = (observer: any) => {
-//   rerenderEntireTree = observer;
-// };
-
-// export const updateNewPostText = (newText: any) => {
-//   stateData.profilePage.newPostText = newText;
-//   rerenderEntireTree();
-// };
+export const updateNewDialogTextActionCreator = (
+  text: string
+): ChangeDialogType => {
+  return {
+    type: "UPDATE_NEW_MESSAGE_BODY",
+    newDialogText: text,
+  };
+};

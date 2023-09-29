@@ -13,6 +13,7 @@ import { Route, Routes } from "react-router-dom";
 // }
 
 export const App = (props: any) => {
+  console.log(props)
   return (
     <div className="app-wrapper">
       <Header />
@@ -21,13 +22,19 @@ export const App = (props: any) => {
         <Routes>
           <Route
             path="/dialogs"
-            element={<Dialogs state={props.stateData.messagesPage} />}
+            element={
+              <Dialogs
+                dispatch={props.dispatch}
+                state={props.stateData.dialogReducer}
+                store={props.store}
+              />
+            }
           />
           <Route
             path="/profile"
             element={
               <Profile
-                profilePage={props.stateData.profilePage}
+                profilePage={props.stateData.profileReducer}
                 dispatch={props.dispatch}
               />
             }
